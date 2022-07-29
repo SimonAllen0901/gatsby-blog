@@ -6,10 +6,9 @@ date: 2020-05-13 12:46
 description: sdasd
 featuredImage: /assets/bench-accounting-nvzvopqw0gc-unsplash.jpg
 ---
-
 Uh, is the puppy mechanical in any way? Maybe I love you so much I love you no matter who you are pretending to be. If rubbin' frozen dirt in your crotch is wrong, hey I don't wanna be right. I found what I need. And it's not friends, it's things.
 
-That's the ONLY thing about being a slave. OK, if everyone's finished being stupid. Bender, we're trying our best. Fry! Stay back! He's too powerful! I just told you! **You've killed me!** _And yet you haven't said what I told you to say!_ How can any of us trust you?
+That's the ONLY thing about being a slave. OK, if everyone's finished being stupid. Bender, we're trying our best. Fry! Stay back! He's too powerful! I just told you! **You've killed me!** *And yet you haven't said what I told you to say!* How can any of us trust you?
 
 ![Royal Mail](/assets/royal-mail-unsplash.jpg "Royal Mail from Unsplash")
 
@@ -27,13 +26,127 @@ No! I want to live! There are still too many things I don't own! It doesn't look
 
 A true inspiration for the children. Anyone who laughs is a communist! Can I use the gun? Oh, how I wish I could believe or understand that! There's only one reasonable course of action now: kill Flexo!
 
-- Fry! Stay back! He's too powerful!
-- Look, last night was a mistake.
-- Please, Don-Bot… look into your hard drive, and open your mercy file!
+* Fry! Stay back! He's too powerful!
+* Look, last night was a mistake.
+* Please, Don-Bot… look into your hard drive, and open your mercy file!
 
 And I'm his friend Jesus. One hundred dollars. There, now he's trapped in a book I wrote: a crummy world of plot holes and spelling errors! No! The cat shelter's on to me.
 
 Fry! Quit doing the right thing, you jerk! I'm sure those windmills will keep them cool. I'm Santa Claus! Leela's gonna kill me. Then we'll go with that data file!
+
+```javascript
+module.exports = {
+  siteMetadata: settings.meta,
+  plugins: [
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/static/assets/`,
+        name: `assets`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/src/content/`,
+        name: `content`,
+      },
+    },
+    `gatsby-plugin-image`,
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        gfm: true,
+        plugins: [
+          netlifyCmsPaths,
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 1024,
+              showCaptions: true,
+              linkImagesToOriginal: false,
+              tracedSVG: true,
+              loading: "lazy",
+            },
+          },
+          {
+            resolve: `@gatsby-contrib/gatsby-plugin-elasticlunr-search`,
+            options: {
+              // Fields to index
+              fields: [`title`, `template`, `slug`],
+              // How to resolve each field`s value for a supported node type
+              resolvers: {
+                // For any node of type MarkdownRemark, list how to resolve the fields` values
+                MarkdownRemark: {
+                  template: node => node.frontmatter.template,
+                  title: node => node.frontmatter.title,
+                  slug: node => node.frontmatter.slug,
+                },
+              },
+              // Optional filter to limit indexed nodes
+              filter: (node, getNode) => node.frontmatter.tags !== "exempt",
+            },
+          },
+          `gatsby-remark-responsive-iframe`,
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              classPrefix: "language-",
+              inlineCodeMarker: null,
+              aliases: {},
+              showLineNumbers: false,
+              noInlineHighlight: false,
+              // By default the HTML entities <>&'" are escaped.
+              // Add additional HTML escapes by providing a mapping
+              // of HTML entities and their escape value IE: { '}': '&#123;' }
+              escapeEntities: {},
+            },
+          },
+        ],
+      },
+    },
+    `gatsby-plugin-sass`,
+    `gatsby-plugin-react-helmet`,
+    "gatsby-plugin-theme-ui",
+    `gatsby-plugin-netlify-cms`,
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: settings.ga,
+      },
+    },
+    `gatsby-plugin-sitemap`,
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Foundation`,
+        short_name: `Foundation`,
+        start_url: `/`,
+        background_color: `#f7f0eb`,
+        theme_color: `#a2466c`,
+        display: `standalone`,
+        icon: "static" + settings.meta.iconimage,
+      },
+    },
+    "gatsby-plugin-offline",
+    `gatsby-plugin-netlify`,
+    {
+      resolve: `gatsby-plugin-netlify`,
+      options: {
+        headers: {},
+        allPageHeaders: [],
+        mergeSecurityHeaders: true,
+        mergeLinkHeaders: true,
+        mergeCachingHeaders: true,
+        transformHeaders: (headers, path) => headers,
+        generateMatchPathRewrites: true,
+      },
+    },
+  ],
+}
+```
 
 That's right, baby. I ain't your loverboy Flexo, the guy you love so much. You even love anyone pretending to be him! Bite my shiny metal ass. Tell them I hate them. Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."
 
